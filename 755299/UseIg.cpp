@@ -71,7 +71,9 @@ std::istream & operator >> (std::istream & in, Poster & a){
         in>>input;
     }
     a.now = time(nullptr);
-    std::cout << "content :";getline(in, a.content) ;
+    std::cout << "content :";
+    in.get();
+    getline(in, a.content) ;
     return in;
 }
 
@@ -132,7 +134,7 @@ void IgServer::reaction(){
             (this->begin()+post_num-1)->rate();
         }
         system("clear");
-        operator << (std::cout, *this);
+        std::cout<<*this;
     }
 }
 
