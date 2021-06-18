@@ -1,0 +1,8 @@
+howard
+a
+jack ki *
+error!
+a
+jack *
+finish!
+q
