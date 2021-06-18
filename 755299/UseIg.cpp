@@ -71,7 +71,7 @@ std::istream & operator >> (std::istream & in, Poster & a){
         in>>input;
     }
     a.now = time(nullptr);
-    std::cout << "content :";in >> a.content;
+    std::cout << "content :";getline(in, a.content) ;
     return in;
 }
 
