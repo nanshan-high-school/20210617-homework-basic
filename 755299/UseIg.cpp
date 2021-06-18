@@ -5,6 +5,9 @@
 #include <ctime>
 #include "ig.h"
 
+#define BOLDBLUE "\033[1m\033[34m"
+#define RESET "\033[0m"
+
 Emoji::Emoji(std::string faceType):shape(std::move(faceType)), count(0){}
 
 void Emoji::operator ++ () { this->count++; }
@@ -72,19 +75,19 @@ std::istream & operator >> (std::istream & in, Poster & a){
     }
     a.now = time(nullptr);
     std::cout << "content :";
-    in.get();
-    getline(in, a.content) ;
+	in.get();
+	getline(in, a.content) ;
     return in;
 }
 
 std::ostream & operator <<(std::ostream & outer, const Poster& a){
-    outer << " @ " ;
+    outer << BOLDBLUE <<  " @";
     for (const auto& tempForOut : a.at)
         outer << tempForOut  << " ";
-    outer << (time(nullptr)-a.now) << "second ago "
-          << std::endl << "----------"<< std::endl
+    outer << RESET << (time(nullptr)-a.now) << " second ago "
+          << std::endl << std::string(a.content.length(), '-') << std::endl
           << a.content
-          << std::endl << "----------"<< std::endl
+          << std::endl << std::string(a.content.length(), '-') << std::endl
           << a.like << a.angry << a.cry << a.happy
           << std::endl;
     return outer;
@@ -126,7 +129,7 @@ std::basic_istream<char> & operator >> (std::basic_istream<char> & in, IgServer 
 void IgServer::reaction(){
     int post_num;
     while(true){
-        std::cout <<"add faces to ...(0:exit, 1:first post, ......) :";
+        std::cout <<"add faces to(0:exit, 1:first post, ......) :";
         std::cin >> post_num;
         if(!post_num){
             break;
