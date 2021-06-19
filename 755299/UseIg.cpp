@@ -8,6 +8,11 @@
 #define BOLDBLUE "\033[1m\033[34m"
 #define RESET "\033[0m"
 
+#define LIKEFACE u8"\U00002665"
+#define ANGRYFACE u8"\U0001F4A2"
+#define HAPPYFACE u8"\U0001F603"
+#define CRYFACE u8"\U0001F622"
+
 //Emoji constructor
 Emoji::Emoji(std::string faceType):shape(std::move(faceType)), count(0){}
 
@@ -60,8 +65,8 @@ void Poster::rate(){
 }
 
 //Poster constructor
-Poster::Poster():like(u8"\U00002665"), angry(u8"\U0001F4A2"),
-                 happy(u8"\U0001F603"), cry(u8"\U0001F622"), emojied(0){}
+Poster::Poster():like(LIKEFACE), angry(ANGRYFACE), happy(HAPPYFACE), cry(CRYFACE),
+                 emojied(0){}
 
 //Emoji overload operator function <<(out)
 std::ostream & operator <<(std::ostream & out, const Emoji& a){
@@ -94,8 +99,7 @@ std::ostream & operator <<(std::ostream & outer, const Poster& a){
           << std::endl << std::string(a.content.length(), '-') << std::endl
           << a.content
           << std::endl << std::string(a.content.length(), '-') << std::endl
-          << a.like << a.angry << a.cry << a.happy
-          << std::endl;
+          << a.like << a.angry << a.cry << a.happy << std::endl;
     return outer;
 }
 
