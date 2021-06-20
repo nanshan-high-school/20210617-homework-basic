@@ -10,41 +10,41 @@
 #include <vector>
 #include "IterableStack.h"
 
-class Emoji{
-    std::string shape;
-    int count;
-public:
-    Emoji (std::string);
-    friend std::ostream & operator <<(std::ostream &, const Emoji &);
-    void operator ++();
-    void operator --();
+class Emoji {
+  std::string shape;
+  int count;
+ public:
+  Emoji(std::string);
+  friend std::ostream &operator<<(std::ostream &, const Emoji &);
+  void operator++();
+  void operator--();
 };
 
-class Poster{
-    std::string name;
-    time_t now{};
-    std::vector<std::string> at;
-    std::string content;
-    Emoji Emoji_arr[4];
-    int emojied;
-public:
-    Poster();
-    friend std::istream & operator >> (std::istream &, Poster &);
-    friend std::ostream & operator << (std::ostream &, const Poster &);
-    void rate();
+class Poster {
+  std::string name;
+  time_t now{};
+  std::vector<std::string> at;
+  std::string content;
+  Emoji Emoji_arr[4];
+  int is_emoji;
+ public:
+  Poster();
+  friend std::istream &operator>>(std::istream &, Poster &);
+  friend std::ostream &operator<<(std::ostream &, const Poster &);
+  void rate();
 };
 
-using PostStack=IterableStack<Poster>;
+using PostStack = IterableStack<Poster>;
 
-class IgServer : PostStack{
-private:
-    std::string loginUser;
-    void batchInput();
-public:
-    void login();
-    friend std::basic_ostream<char> & operator << (std::basic_ostream<char> &, IgServer &);
-    friend std::basic_istream<char> & operator >> (std::basic_istream<char> &, IgServer &);
-    void reaction();
+class IgServer : PostStack {
+ private:
+  std::string loginUser;
+  void batchInput();
+ public:
+  void login();
+  friend std::basic_ostream<char> &operator<<(std::basic_ostream<char> &, IgServer &);
+  friend std::basic_istream<char> &operator>>(std::basic_istream<char> &, IgServer &);
+  void reaction();
 };
 
 #endif //INC_20210617_HOMEWORK_BASIC_IG_H
