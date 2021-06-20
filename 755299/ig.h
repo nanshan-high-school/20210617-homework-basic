@@ -14,7 +14,7 @@ class Emoji{
     std::string shape;
     int count;
 public:
-    explicit Emoji (std::string);
+    Emoji (std::string);
     friend std::ostream & operator <<(std::ostream &, const Emoji &);
     void operator ++();
     void operator --();
@@ -25,7 +25,7 @@ class Poster{
     time_t now{};
     std::vector<std::string> at;
     std::string content;
-    Emoji like, angry, cry, happy;
+    Emoji Emoji_arr[4];
     int emojied;
 public:
     Poster();

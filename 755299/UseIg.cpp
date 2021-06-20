@@ -3,15 +3,14 @@
 //
 
 #include <ctime>
+#include <utility>
 #include "ig.h"
 
 #define BOLDBLUE "\033[1m\033[34m"
+#define GREEN "\e[0;32m"
 #define RESET "\033[0m"
 
-#define LIKEFACE u8"\U00002665"
-#define ANGRYFACE u8"\U0001F4A2"
-#define HAPPYFACE u8"\U0001F603"
-#define CRYFACE u8"\U0001F622"
+std::string FACE[4]{u8"\U00002665", u8"\U0001F4A2", u8"\U0001F603", u8"\U0001F622"};
 
 //Emoji constructor
 Emoji::Emoji(std::string faceType):shape(std::move(faceType)), count(0){}
@@ -22,51 +21,28 @@ void Emoji::operator -- () { this->count--; }
 
 //Enter user felling
 void Poster::rate(){
-    int rater=0;
+    int rater;
     std::cout << "input (1:like 2:angry 3:happy 4:cry 5:break) :";
     std::cin >> rater;
-    if(!emojied){
-        switch(rater){
-            case 1:++this->like;emojied = 1;break;
-            case 2:++this->angry;emojied = 2;break;
-            case 3:++this->cry;emojied = 3;break;
-            case 4:++this->happy;emojied = 4;break;
-            case 5:break;
-            default:std::cout << "error .";
-        }
+    if (rater == 5){
+        return;
+    }else if(!emojied){
+        ++this->Emoji_arr[rater-1];
+        emojied = rater;
     } else if(emojied == rater){
-        switch(emojied){
-            case 1:--this->like;break;
-            case 2:--this->angry;break;
-            case 3:--this->cry;break;
-            case 4:--this->happy;break;
-            case 5:break;
-            default:std::cout << "error .";
-        }
+        --this->Emoji_arr[rater-1];
         emojied = 0;
-    } else if(emojied){
-        switch(emojied){
-            case 1:--this->like;break;
-            case 2:--this->angry;break;
-            case 3:--this->cry;break;
-            case 4:--this->happy;break;
-            case 5:break;
-            default:std::cout << "error .";
-        }
-        switch(rater){
-            case 1:++this->like;emojied = 1;break;
-            case 2:++this->angry;emojied = 2;break;
-            case 3:++this->cry;emojied = 3;break;
-            case 4:++this->happy;emojied = 4;break;
-            case 5:break;
-            default:std::cout << "error .";
-        }
+    } else  {
+        --this->Emoji_arr[emojied-1];
+        ++this->Emoji_arr[rater-1];
+        emojied = rater;
     }
 }
 
 //Poster constructor
-Poster::Poster():like(LIKEFACE), angry(ANGRYFACE), happy(HAPPYFACE), cry(CRYFACE),
-                 emojied(0){}
+Poster::Poster():emojied(0), Emoji_arr{FACE[0], FACE[1], FACE[2], FACE[3]}{
+
+}
 
 //Emoji overload operator function <<(out)
 std::ostream & operator <<(std::ostream & out, const Emoji& a){
@@ -86,8 +62,8 @@ std::istream & operator >> (std::istream & in, Poster & a){
     }
     a.now = time(nullptr);
     std::cout << "content :";
-	in.get();
-	getline(in, a.content) ;
+    in.get();
+    getline(in, a.content) ;
     return in;
 }
 
@@ -95,11 +71,11 @@ std::ostream & operator <<(std::ostream & outer, const Poster& a){
     outer << BOLDBLUE <<  " @";
     for (const auto& tempForOut : a.at)
         outer << tempForOut  << " ";
-    outer << RESET << (time(nullptr)-a.now) << " second ago "
+    outer << GREEN << (time(nullptr)-a.now) << " second ago " << RESET
           << std::endl << std::string(a.content.length(), '-') << std::endl
           << a.content
           << std::endl << std::string(a.content.length(), '-') << std::endl
-          << a.like << a.angry << a.cry << a.happy << std::endl;
+          << a.Emoji_arr[0] << a.Emoji_arr[1] << a.Emoji_arr[2] << a.Emoji_arr[3] << std::endl;
     return outer;
 }
 
