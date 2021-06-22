@@ -8,10 +8,10 @@ void PostPaste();
 void passedtime(int StopTime);
 
 struct paste {
-        string user;
-        string picture;
-        string content;
-        int time;
+    string user;
+    string picture;
+    string content;
+    int time;
 };
 
 paste post, NewArticle;
