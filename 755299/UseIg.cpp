@@ -100,7 +100,7 @@ std::ofstream &operator<<(std::ofstream &file, const Poster &a) {
 
 // turn string array to Poser
 void Poster::load_post(std::string a[5]) {
-  char * ptr;
+  char *ptr;
   this->now = strtol(a[0].c_str(), &ptr, 10);
   int num = 0;
   std::string temp;
@@ -114,9 +114,9 @@ void Poster::load_post(std::string a[5]) {
   }
   this->content = a[2];
   Emoji_arr[0] = strtol(a[3].c_str(), &ptr, 10);
-  Emoji_arr[1] = strtol(ptr,&ptr,10);
-  Emoji_arr[2] = strtol(ptr,&ptr,10);
-  Emoji_arr[3] = strtol(ptr, nullptr,10);
+  Emoji_arr[1] = strtol(ptr, &ptr, 10);
+  Emoji_arr[2] = strtol(ptr, &ptr, 10);
+  Emoji_arr[3] = strtol(ptr, nullptr, 10);
   this->is_emoji = strtol(a[4].c_str(), &ptr, 10);
 }
 
