@@ -10,8 +10,6 @@
 #define GREEN "\e[0;32m"
 #define RESET "\033[0m"
 
-const std::string FACE[4]{u8"\U00002665", u8"\U0001F4A2", u8"\U0001F603", u8"\U0001F622"};
-
 //Emoji constructor
 Emoji::Emoji(std::string faceType) : shape(std::move(faceType)), count(0) {}
 
@@ -69,11 +67,31 @@ std::istream &operator>>(std::istream &in, Poster &a) {
   return in;
 }
 
+void Better_TO(time_t time) {
+  long long left = time, level = 0;
+  while (left >= 60 && level < 3) {
+    level++;
+    left /= 60;
+  }
+  if (level == 0) {
+    std::cout << left << " seconds";
+  } else if (level == 1) {
+    std::cout << left << "minutes";
+  } else if (level == 2) {
+    std::cout << left << "hours";
+  } else {
+    std::cout << left / 24 << "days";
+  }
+}
+
 std::ostream &operator<<(std::ostream &outer, const Poster &a) {
   outer << BOLDBLUE << " @";
-  for (const auto &tempForOut : a.mention)
+  for (const auto &tempForOut : a.mention) {
     outer << tempForOut << " ";
-  outer << GREEN << (time(nullptr) - a.now) << " second ago " << RESET
+  }
+  outer << GREEN;
+  Better_TO(time(nullptr) - a.now);
+  outer << " ago " << RESET
         << std::endl << std::string(a.content.length(), '-') << std::endl
         << a.content
         << std::endl << std::string(a.content.length(), '-') << std::endl
@@ -99,10 +117,9 @@ std::ofstream &operator<<(std::ofstream &file, const Poster &a) {
 }
 
 // turn string array to Poser
-void Poster::load_post(std::string a[5]) {
+Poster::Poster(std::string a[5]) : Emoji_arr{Emoji(FACE[0]), Emoji(FACE[1]), Emoji(FACE[2]), Emoji(FACE[3])} {
   char *ptr;
   this->now = strtol(a[0].c_str(), &ptr, 10);
-  int num = 0;
   std::string temp;
   for (const char &i : a[1]) {
     if (i != ' ') {
@@ -165,7 +182,6 @@ void IgServer::reaction() {
     } else {
       (this->begin() + post_num - 1)->rate();
     }
-    system("clear");
     std::cout << *this;
   }
 }
@@ -177,19 +193,24 @@ void IgServer::save_history() {
   for (auto &it : *this) {
     filer << it;
   }
+  filer << encryption_history(0);
   filer.close();
+
 }
 
 void IgServer::load_history() {
   std::ifstream filer;
+  filer.open("example.txt");
+  if (filer.peek() == std::ifstream::traits_type::eof()) {
+    std::cout << "this has no history ." << std::endl;
+    return;
+  }
   int now = 0;
   std::string line[5]{""};
-  filer.open("example.txt");
   getline(filer, loginUser);
   while (getline(filer, line[now])) {
     if (now == 4) {
-      Poster temp;
-      temp.load_post(line);
+      Poster temp(line);
       push(temp);
       now = 0;
     } else {
@@ -197,6 +218,24 @@ void IgServer::load_history() {
     }
   }
   filer.close();
+  if (line[0] != encryption_history(3)) {
+    std::cout << "This is example.txt had been broken. Please undo it or delete all the content.";
+    abort();
+  }
+}
+
+std::string IgServer::encryption_history(int func) {
+  long long l, m;
+  char n;
+  std::ifstream file("example.txt", std::ios::in | std::ios::binary);
+  l = file.tellg();
+  file.seekg(0, std::ios::end);
+  m = file.tellg();
+  file >> n;
+  long long size = m - l - func;
+  std::string key{char(size % 13 + 314159 % 13 + 65), char(int(size % 10) + 30), char(int(size + n) % 7 + 58)};
+  file.close();
+  return key;
 }
 
 int main() {

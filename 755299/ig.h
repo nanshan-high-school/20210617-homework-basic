@@ -11,6 +11,8 @@
 #include <vector>
 #include "IterableStack.h"
 
+const std::string FACE[4]{u8"\U00002665", u8"\U0001F4A2", u8"\U0001F603", u8"\U0001F622"}; /* NOLINT */
+
 class Emoji {
   std::string shape;
   int count;
@@ -31,10 +33,10 @@ class Poster {
   int is_emoji;
  public:
   Poster();
+  explicit Poster(std::string[]);
   friend std::istream &operator>>(std::istream &, Poster &);
   friend std::ostream &operator<<(std::ostream &, const Poster &);
   friend std::ofstream &operator<<(std::ofstream &, const Poster &);
-  void load_post(std::string *);
   void rate();
 };
 
@@ -50,6 +52,7 @@ class IgServer : PostStack {
   friend std::istream &operator>>(std::basic_istream<char> &, IgServer &);
   void load_history();
   void save_history();
+  static std::string encryption_history(int);
   void reaction();
 };
 
