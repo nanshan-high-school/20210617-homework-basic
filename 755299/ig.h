@@ -6,6 +6,7 @@
 #define INC_20210617_HOMEWORK_BASIC_IG_H
 
 #include <iostream>
+#include <fstream>
 #include <string>
 #include <vector>
 #include "IterableStack.h"
@@ -14,16 +15,17 @@ class Emoji {
   std::string shape;
   int count;
  public:
-  Emoji(std::string);
+  explicit Emoji(std::string);
   friend std::ostream &operator<<(std::ostream &, const Emoji &);
+  friend std::ofstream &operator<<(std::ofstream &, const Emoji &);
   void operator++();
   void operator--();
+  Emoji &operator=(int);
 };
 
 class Poster {
-  std::string name;
   time_t now{};
-  std::vector<std::string> at;
+  std::vector<std::string> mention;
   std::string content;
   Emoji Emoji_arr[4];
   int is_emoji;
@@ -31,6 +33,8 @@ class Poster {
   Poster();
   friend std::istream &operator>>(std::istream &, Poster &);
   friend std::ostream &operator<<(std::ostream &, const Poster &);
+  friend std::ofstream &operator<<(std::ofstream &, const Poster &);
+  void load_post(std::string *);
   void rate();
 };
 
@@ -42,8 +46,10 @@ class IgServer : PostStack {
   void batchInput();
  public:
   void login();
-  friend std::basic_ostream<char> &operator<<(std::basic_ostream<char> &, IgServer &);
-  friend std::basic_istream<char> &operator>>(std::basic_istream<char> &, IgServer &);
+  friend std::ostream &operator<<(std::basic_ostream<char> &, IgServer &);
+  friend std::istream &operator>>(std::basic_istream<char> &, IgServer &);
+  void load_history();
+  void save_history();
   void reaction();
 };
 

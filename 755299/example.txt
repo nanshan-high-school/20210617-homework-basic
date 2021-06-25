@@ -1,8 +1,12 @@
-howard
-a
-jack ki *
-error!
-a
-jack *
-finish!
-q
+Howard
+1624601792
+Jack Ki 
+TL4N!
+0 0 0 1 
+4
+1624601805
+Jack 
+Loooooooooooooove!
+0 1 0 0 
+2
+
