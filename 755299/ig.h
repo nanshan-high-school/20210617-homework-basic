@@ -26,7 +26,7 @@ class Emoji {
 };
 
 class Poster {
-  time_t now{};
+  time_t po_time{};
   std::vector<std::string> mention;
   std::string content;
   Emoji Emoji_arr[4];
@@ -50,10 +50,12 @@ class IgServer : PostStack {
   void login();
   friend std::ostream &operator<<(std::basic_ostream<char> &, IgServer &);
   friend std::istream &operator>>(std::basic_istream<char> &, IgServer &);
+  void operator-=(std::_Deque_iterator<Poster, const Poster &, const Poster *>);
   void load_history();
   void save_history();
   static std::string encryption_history(int);
   void reaction();
+  bool is_login() { return loginUser.empty(); }
 };
 
 #endif //INC_20210617_HOMEWORK_BASIC_IG_H

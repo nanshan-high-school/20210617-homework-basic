@@ -12,6 +12,7 @@ class IterableStack : public std::stack<T, Container> {
   using std::stack<T, Container>::c;
 
  public:
+  void pop(std::_Deque_iterator<T, const T &, const T *> a) { this->c.erase(a); }
   auto begin() { return std::begin(c); }
   auto end() { return std::end(c); }
 
