@@ -267,4 +267,5 @@ int main() {
   }
   mainProcess.reaction();
   mainProcess.save_history();
+  return 0;
 }
