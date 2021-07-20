@@ -22,7 +22,7 @@ int main() {
     string inputkey{};
     string key{};
     ifstream myFile;
-    myFile.open("auth.txt");
+    myFile.open("authkey.txt");
     if(!file) {
         cout << "您尚未生成驗證碼，程式將自動關閉" << endl;
         exit()
