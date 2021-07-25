@@ -1,0 +1,53 @@
+#include <iostream>
+#include <stack>
+#include <ctime>
+using namespace std;
+
+bool postanimage();
+void show();
+
+struct post {
+    string ID;
+    string url;
+    string content;
+};
+
+stack<post> posts;
+
+int main() {
+    bool continuepost = true;
+    do {
+        continuepost = postanimage();
+    } while (continuepost);
+    while (! posts.empty()) {
+        show();
+    }
+}
+bool postanimage() {
+
+    post newpost = {};
+
+    cout << "ID(輸入0結束):";
+    cin >> newpost.ID;
+
+    if (newpost.ID == "0") {
+        return false;
+    }
+
+    cout << "圖片網址:";
+    cin >> newpost.url;
+
+    cout << "內文:";
+    cin >> newpost.content;
+
+    posts.push(newpost);
+
+    return true;
+}
+void show() {
+    post showpost = posts.top();
+    cout << showpost.ID << endl << showpost.url << endl << showpost.content << endl;
+    posts.pop();
+    cout << "==============" << endl;
+
+}
